@@ -150,12 +150,12 @@ public class Navigator extends ParentController<ViewGroup> {
         if (isRootNotCreated()) getView();
         final ViewController<?> disappearing = previousRoot;
         root = appearing;
-        root.setOverlay(new RootOverlay(getActivity(), contentLayout));
-        root.setParentController(this);
+        if (root != null) root.setOverlay(new RootOverlay(getActivity(), contentLayout));
+        if (root != null) root.setParentController(this);
         rootPresenter.setRoot(appearing, disappearing, defaultOptions, new CommandListenerAdapter(commandListener) {
             @Override
             public void onSuccess(String childId) {
-                root.onViewDidAppear();
+                if (root != null) root.onViewDidAppear();
                 if (removeSplashView) contentLayout.removeViewAt(0);
                 destroyPreviousRoot();
                 super.onSuccess(childId);
